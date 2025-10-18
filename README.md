@@ -231,9 +231,3 @@ Developed by [RAprogramm](https://github.com/RAprogramm)
 
 - [`std::ffi::CString`](https://doc.rust-lang.org/std/ffi/struct.CString.html) - Standard library C string type
 - [`std::ffi::CStr`](https://doc.rust-lang.org/std/ffi/struct.CStr.html) - Borrowed C string slice
-
-## See Also
-
-- [Documentation](https://docs.rs/cstring-array)
-- [Repository](https://github.com/RAprogramm/cstring-array)
-- [Issue Tracker](https://github.com/RAprogramm/cstring-array/issues)
