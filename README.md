@@ -143,7 +143,11 @@ call_c_function(ptr, array.len() as i32);
 - **No re-allocation** of strings, only pointer array management
 - **RAII cleanup** without manual memory management
 
-Benchmarks show performance comparable to manual `char**` construction with added safety guarantees.
+### Benchmark Results
+
+<!-- BENCHMARK_RESULTS_START -->
+Benchmarks are automatically run on the latest commit to `main`. Results will appear here after the next benchmark run.
+<!-- BENCHMARK_RESULTS_END -->
 
 ## Minimum Supported Rust Version (MSRV)
 
