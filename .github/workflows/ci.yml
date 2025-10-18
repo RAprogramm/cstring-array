@@ -166,6 +166,9 @@ jobs:
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Generate Cargo.lock
+        run: cargo generate-lockfile
+
       - name: Install cargo-audit
         uses: taiki-e/install-action@cargo-audit
 
