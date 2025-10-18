@@ -1,1 +1,26 @@
+# Rust
 /target
+Cargo.lock
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
+tarpaulin-report.html
+cobertura.xml
+*.profraw
+*.profdata
+
+# Benchmarks
+/target/criterion
+
+# Documentation
+/target/doc

@@ -1,0 +1,178 @@
+# SPDX-FileCopyrightText: 2025 RAprogramm <andrey.rozanov.vl@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
+name: Benchmark
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo index
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Cache cargo build
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-benchmark-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run benchmarks
+        run: cargo bench --all-features -- --output-format bencher | tee bench_output.txt
+
+      - name: Format benchmark results
+        run: |
+          cat > format_bench.py << 'PYTHON_SCRIPT'
+          #!/usr/bin/env python3
+          import re
+          import sys
+          from datetime import datetime
+
+          def parse_bencher_output(filename):
+              """Parse bencher format output from cargo bench."""
+              with open(filename, 'r') as f:
+                  content = f.read()
+
+              # Extract benchmark results using regex
+              # Format: test bench_name ... bench: 123,456 ns/iter (+/- 789)
+              pattern = r'test\s+(\S+)\s+\.\.\.\s+bench:\s+([\d,]+)\s+ns/iter\s+\(\+/-\s+([\d,]+)\)'
+              matches = re.findall(pattern, content)
+
+              if not matches:
+                  return None
+
+              # Group by benchmark category
+              groups = {}
+              for name, time, stddev in matches:
+                  # Remove commas from numbers
+                  time = time.replace(',', '')
+                  stddev = stddev.replace(',', '')
+
+                  # Extract category from benchmark name
+                  if '/' in name:
+                      category = name.split('/')[0]
+                  else:
+                      category = 'Operations'
+
+                  if category not in groups:
+                      groups[category] = []
+
+                  # Format the benchmark name
+                  display_name = name.replace('_', ' ').title()
+
+                  groups[category].append({
+                      'name': display_name,
+                      'time': int(time),
+                      'stddev': int(stddev)
+                  })
+
+              return groups
+
+          def format_time(ns):
+              """Format nanoseconds into human-readable format."""
+              if ns < 1_000:
+                  return f"{ns} ns"
+              elif ns < 1_000_000:
+                  return f"{ns / 1_000:.2f} μs"
+              elif ns < 1_000_000_000:
+                  return f"{ns / 1_000_000:.2f} ms"
+              else:
+                  return f"{ns / 1_000_000_000:.2f} s"
+
+          def generate_markdown(groups):
+              """Generate markdown table from benchmark results."""
+              lines = []
+              lines.append(f"*Last updated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC*")
+              lines.append("")
+
+              for category, benchmarks in sorted(groups.items()):
+                  lines.append(f"#### {category.replace('_', ' ').title()}")
+                  lines.append("")
+                  lines.append("| Benchmark | Time | Std Dev |")
+                  lines.append("|-----------|------|---------|")
+
+                  for bench in sorted(benchmarks, key=lambda x: x['time']):
+                      name = bench['name']
+                      time = format_time(bench['time'])
+                      stddev = format_time(bench['stddev'])
+                      lines.append(f"| {name} | {time} | ±{stddev} |")
+
+                  lines.append("")
+
+              return '\n'.join(lines)
+
+          if __name__ == '__main__':
+              groups = parse_bencher_output('bench_output.txt')
+
+              if groups:
+                  markdown = generate_markdown(groups)
+                  with open('benchmark_results.md', 'w') as f:
+                      f.write(markdown)
+                  print("Benchmark results formatted successfully")
+              else:
+                  print("No benchmark results found")
+                  sys.exit(1)
+          PYTHON_SCRIPT
+
+          python3 format_bench.py
+
+      - name: Update README with benchmark results
+        run: |
+          # Read the formatted benchmark results
+          if [ -f benchmark_results.md ]; then
+            BENCH_RESULTS=$(cat benchmark_results.md)
+
+            # Use awk to replace content between markers
+            awk -v results="$BENCH_RESULTS" '
+              BEGIN { in_section=0 }
+              /<!-- BENCHMARK_RESULTS_START -->/ {
+                print
+                print results
+                in_section=1
+                next
+              }
+              /<!-- BENCHMARK_RESULTS_END -->/ {
+                in_section=0
+              }
+              !in_section { print }
+            ' README.md > README.md.tmp
+
+            mv README.md.tmp README.md
+          fi
+
+      - name: Commit benchmark results
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          if git diff --quiet README.md; then
+            echo "No changes to commit"
+          else
+            git add README.md
+            git commit -m "chore: update benchmark results [skip ci]"
+            git push
+          fi
