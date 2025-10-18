@@ -75,7 +75,10 @@ impl CStringArray {
             return Err(EmptyArray);
         }
 
-        let cstrings: Vec<CString> = strings.into_iter().map(CString::new).collect::<Result<_, _>>()?;
+        let cstrings: Vec<CString> = strings
+            .into_iter()
+            .map(CString::new)
+            .collect::<Result<_, _>>()?;
 
         let mut pointers: Vec<*const c_char> = cstrings.iter().map(|s| s.as_ptr()).collect();
         pointers.push(null());

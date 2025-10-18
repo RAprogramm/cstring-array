@@ -4,18 +4,17 @@
 
 //! Error types for CStringArray operations.
 //!
-//! This module provides the error types used throughout the crate when string array
-//! operations fail. All errors implement the standard `Error` trait for proper error
-//! handling and propagation.
+//! This module provides the error types used throughout the crate when string
+//! array operations fail. All errors implement the standard `Error` trait for
+//! proper error handling and propagation.
 
+#[cfg(test)]
+use std::ffi::CString;
 use std::{
     error::Error,
     ffi::NulError,
     fmt::{Display, Formatter, Result as FmtResult}
 };
-
-#[cfg(test)]
-use std::ffi::CString;
 
 /// Error type for CStringArray operations
 #[derive(Debug)]
@@ -31,7 +30,11 @@ impl Display for CStringArrayError {
         use CStringArrayError::*;
         match self {
             NulError(e) => {
-                write!(f, "String contains interior null byte at position {}", e.nul_position())
+                write!(
+                    f,
+                    "String contains interior null byte at position {}",
+                    e.nul_position()
+                )
             }
             EmptyArray => write!(f, "Cannot create array from empty input")
         }

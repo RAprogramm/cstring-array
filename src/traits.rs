@@ -4,9 +4,10 @@
 
 //! Trait implementations for CStringArray.
 //!
-//! This module provides ergonomic conversions from various string collection types
-//! into `CStringArray` through the `TryFrom` trait. These implementations allow for
-//! flexible and convenient array construction from different input formats.
+//! This module provides ergonomic conversions from various string collection
+//! types into `CStringArray` through the `TryFrom` trait. These implementations
+//! allow for flexible and convenient array construction from different input
+//! formats.
 
 use std::ffi::CString;
 
