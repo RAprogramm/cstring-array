@@ -5,16 +5,31 @@ edition = "2024"
 rust-version = "1.90"
 authors = ["RAprogramm <andrey.rozanov.vl@gmail.com>"]
 description = "Safe, zero-copy wrapper for passing string arrays to C FFI (char**)"
+documentation = "https://docs.rs/cstring-array"
+homepage = "https://github.com/RAprogramm/cstring-array"
 repository = "https://github.com/RAprogramm/cstring-array"
 license = "MIT"
-keywords = ["ffi", "c-interop", "cstring", "argv", "unsafe"]
-categories = ["api-bindings", "development-tools::ffi", "no-std"]
+keywords = ["ffi", "c-interop", "cstring", "argv", "char-array"]
+categories = ["api-bindings", "development-tools::ffi", "external-ffi-bindings"]
 readme = "README.md"
+exclude = [
+    ".github/",
+    "target/",
+    "*.md",
+    "!README.md",
+    ".gitignore",
+    "codecov.yml",
+    "REUSE.toml"
+]
 
 [dependencies]
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [profile.release]
 lto = true

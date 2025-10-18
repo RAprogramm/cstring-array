@@ -80,7 +80,8 @@ impl CStringArray {
             .map(CString::new)
             .collect::<Result<_, _>>()?;
 
-        let mut pointers: Vec<*const c_char> = cstrings.iter().map(|s| s.as_ptr()).collect();
+        let mut pointers: Vec<*const c_char> = Vec::with_capacity(cstrings.len() + 1);
+        pointers.extend(cstrings.iter().map(|s| s.as_ptr()));
         pointers.push(null());
 
         Ok(Self {
@@ -121,7 +122,8 @@ impl CStringArray {
             return Err(EmptyArray);
         }
 
-        let mut pointers: Vec<*const c_char> = strings.iter().map(|s| s.as_ptr()).collect();
+        let mut pointers: Vec<*const c_char> = Vec::with_capacity(strings.len() + 1);
+        pointers.extend(strings.iter().map(|s| s.as_ptr()));
         pointers.push(null());
 
         Ok(Self {
@@ -155,6 +157,8 @@ impl CStringArray {
     ///
     /// // Safe to pass to C FFI functions like execve, etc.
     /// ```
+    #[inline]
+    #[must_use]
     pub fn as_ptr(&self) -> *const *const c_char {
         self.pointers.as_ptr()
     }
@@ -178,6 +182,8 @@ impl CStringArray {
     /// let mut array = CStringArray::new(vec!["test".to_string()]).unwrap();
     /// let ptr: *mut *const c_char = array.as_mut_ptr();
     /// ```
+    #[inline]
+    #[must_use]
     pub fn as_mut_ptr(&mut self) -> *mut *const c_char {
         self.pointers.as_mut_ptr()
     }
@@ -194,6 +200,8 @@ impl CStringArray {
     /// let array = CStringArray::new(vec!["a".to_string(), "b".to_string()]).unwrap();
     /// assert_eq!(array.len(), 2);
     /// ```
+    #[inline]
+    #[must_use]
     pub fn len(&self) -> usize {
         self.strings.len()
     }
@@ -212,6 +220,8 @@ impl CStringArray {
     /// let array = CStringArray::new(vec!["x".to_string()]).unwrap();
     /// assert!(!array.is_empty());
     /// ```
+    #[inline]
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         self.strings.is_empty()
     }
@@ -236,6 +246,8 @@ impl CStringArray {
     /// assert_eq!(array.get(1).unwrap().to_str().unwrap(), "second");
     /// assert!(array.get(2).is_none());
     /// ```
+    #[inline]
+    #[must_use]
     pub fn get(&self, index: usize) -> Option<&CString> {
         self.strings.get(index)
     }
@@ -251,6 +263,7 @@ impl CStringArray {
     /// let strings: Vec<_> = array.iter().collect();
     /// assert_eq!(strings.len(), 2);
     /// ```
+    #[inline]
     pub fn iter(&self) -> Iter<'_, CString> {
         self.strings.iter()
     }
