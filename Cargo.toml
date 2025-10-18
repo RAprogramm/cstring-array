@@ -1,6 +1,30 @@
 [package]
-name = "c-star"
+name = "cstring-array"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.90"
+authors = ["RAprogramm <andrey.rozanov.vl@gmail.com>"]
+description = "Safe, zero-copy wrapper for passing string arrays to C FFI (char**)"
+repository = "https://github.com/RAprogramm/cstring-array"
+license = "MIT"
+keywords = ["ffi", "c-interop", "cstring", "argv", "unsafe"]
+categories = ["api-bindings", "development-tools::ffi", "no-std"]
+readme = "README.md"
 
 [dependencies]
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+
+[profile.bench]
+lto = true
+codegen-units = 1
+
+[[bench]]
+name = "cstring_array"
+harness = false
