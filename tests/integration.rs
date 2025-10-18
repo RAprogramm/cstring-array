@@ -2,6 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+//! Integration tests for CStringArray FFI compatibility.
+//!
+//! This module tests real-world FFI scenarios including:
+//! - Passing arrays to mock C functions
+//! - Verifying pointer validity and null termination
+//! - Testing concurrent array usage
+//! - Validating lifetime safety
+//! - Real command-line argument patterns
+
 use std::{
     convert::TryFrom,
     ffi::{CStr, CString, c_char, c_int}

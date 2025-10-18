@@ -2,9 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
+//! Comprehensive unit tests for CStringArray.
+//!
+//! This module contains exhaustive tests covering all functionality including:
+//! - Construction from various input types
+//! - Error handling and validation
+//! - Memory safety and pointer operations
+//! - Unicode string support
+//! - Edge cases and boundary conditions
+
 use std::{convert::TryFrom, ffi::CString};
 
-use crate::{CStringArray, CStringArrayError};
+use crate::{CStringArray, CStringArrayError::*};
 
 #[test]
 fn test_new_from_strings() {
@@ -24,7 +33,7 @@ fn test_new_from_empty_vec() {
     assert!(result.is_err());
 
     match result {
-        Err(CStringArrayError::EmptyArray) => {}
+        Err(EmptyArray) => {}
         _ => panic!("Expected EmptyArray error")
     }
 }
@@ -36,7 +45,7 @@ fn test_new_with_interior_null() {
     assert!(result.is_err());
 
     match result {
-        Err(CStringArrayError::NulError(e)) => {
+        Err(NulError(e)) => {
             assert_eq!(e.nul_position(), 2);
         }
         _ => panic!("Expected NulError")
@@ -290,7 +299,7 @@ fn test_single_element_array() {
 
 #[test]
 fn test_error_display() {
-    let empty_err = CStringArrayError::EmptyArray;
+    let empty_err = EmptyArray;
     assert_eq!(
         format!("{}", empty_err),
         "Cannot create array from empty input"

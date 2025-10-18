@@ -4,10 +4,11 @@
 
 use std::{
     ffi::{CString, c_char},
-    ptr
+    ptr::null,
+    slice::Iter
 };
 
-use crate::error::CStringArrayError;
+use crate::error::{CStringArrayError, CStringArrayError::EmptyArray};
 
 /// Safe wrapper for passing string arrays to C FFI as `char**`.
 ///
@@ -71,16 +72,13 @@ impl CStringArray {
     /// ```
     pub fn new(strings: Vec<String>) -> Result<Self, CStringArrayError> {
         if strings.is_empty() {
-            return Err(CStringArrayError::EmptyArray);
+            return Err(EmptyArray);
         }
 
-        let cstrings: Vec<CString> = strings
-            .into_iter()
-            .map(CString::new)
-            .collect::<Result<_, _>>()?;
+        let cstrings: Vec<CString> = strings.into_iter().map(CString::new).collect::<Result<_, _>>()?;
 
         let mut pointers: Vec<*const c_char> = cstrings.iter().map(|s| s.as_ptr()).collect();
-        pointers.push(ptr::null());
+        pointers.push(null());
 
         Ok(Self {
             strings: cstrings,
@@ -117,11 +115,11 @@ impl CStringArray {
     /// ```
     pub fn from_cstrings(strings: Vec<CString>) -> Result<Self, CStringArrayError> {
         if strings.is_empty() {
-            return Err(CStringArrayError::EmptyArray);
+            return Err(EmptyArray);
         }
 
         let mut pointers: Vec<*const c_char> = strings.iter().map(|s| s.as_ptr()).collect();
-        pointers.push(ptr::null());
+        pointers.push(null());
 
         Ok(Self {
             strings,
@@ -250,7 +248,7 @@ impl CStringArray {
     /// let strings: Vec<_> = array.iter().collect();
     /// assert_eq!(strings.len(), 2);
     /// ```
-    pub fn iter(&self) -> std::slice::Iter<'_, CString> {
+    pub fn iter(&self) -> Iter<'_, CString> {
         self.strings.iter()
     }
 }

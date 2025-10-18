@@ -2,9 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
+//! Error types for CStringArray operations.
+//!
+//! This module provides the error types used throughout the crate when string array
+//! operations fail. All errors implement the standard `Error` trait for proper error
+//! handling and propagation.
+
+use std::{
+    error::Error,
+    ffi::NulError,
+    fmt::{Display, Formatter, Result as FmtResult}
+};
+
 #[cfg(test)]
 use std::ffi::CString;
-use std::ffi::NulError;
 
 /// Error type for CStringArray operations
 #[derive(Debug)]
@@ -15,40 +26,36 @@ pub enum CStringArrayError {
     EmptyArray
 }
 
-impl std::fmt::Display for CStringArrayError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl Display for CStringArrayError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> FmtResult {
+        use CStringArrayError::*;
         match self {
-            CStringArrayError::NulError(e) => {
-                write!(
-                    f,
-                    "String contains interior null byte at position {}",
-                    e.nul_position()
-                )
+            NulError(e) => {
+                write!(f, "String contains interior null byte at position {}", e.nul_position())
             }
-            CStringArrayError::EmptyArray => write!(f, "Cannot create array from empty input")
+            EmptyArray => write!(f, "Cannot create array from empty input")
         }
     }
 }
 
-impl std::error::Error for CStringArrayError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+impl Error for CStringArrayError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        use CStringArrayError::*;
         match self {
-            CStringArrayError::NulError(e) => Some(e),
-            CStringArrayError::EmptyArray => None
+            NulError(e) => Some(e),
+            EmptyArray => None
         }
     }
 }
 
 impl From<NulError> for CStringArrayError {
     fn from(err: NulError) -> Self {
-        CStringArrayError::NulError(err)
+        Self::NulError(err)
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use std::error::Error;
-
     use super::*;
 
     #[test]
@@ -67,7 +74,8 @@ mod tests {
 
     #[test]
     fn test_empty_array_display() {
-        let err = CStringArrayError::EmptyArray;
+        use CStringArrayError::*;
+        let err = EmptyArray;
         assert_eq!(format!("{}", err), "Cannot create array from empty input");
     }
 
@@ -84,17 +92,19 @@ mod tests {
 
     #[test]
     fn test_error_source_empty() {
-        let err = CStringArrayError::EmptyArray;
+        use CStringArrayError::*;
+        let err = EmptyArray;
         assert!(err.source().is_none());
     }
 
     #[test]
     fn test_from_nul_error() {
+        use CStringArrayError::*;
         let nul_err = CString::new("a\0b").unwrap_err();
         let err: CStringArrayError = nul_err.into();
 
         match err {
-            CStringArrayError::NulError(e) => {
+            NulError(e) => {
                 assert_eq!(e.nul_position(), 1);
             }
             _ => panic!("Expected NulError variant")
@@ -103,7 +113,8 @@ mod tests {
 
     #[test]
     fn test_debug_format() {
-        let err1 = CStringArrayError::EmptyArray;
+        use CStringArrayError::*;
+        let err1 = EmptyArray;
         let debug_str = format!("{:?}", err1);
         assert!(debug_str.contains("EmptyArray"));
 

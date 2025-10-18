@@ -2,6 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+//! Performance benchmarks for CStringArray operations.
+//!
+//! This module measures the performance characteristics of various operations:
+//! - Construction from different source types
+//! - Zero-copy construction from Vec<CString>
+//! - Pointer access operations
+//! - Array iteration
+//! - Comparison of construction methods
+//! - Performance with large strings
+
 use std::{convert::TryFrom, ffi::CString};
 
 use criterion::{BenchmarkId, Criterion, black_box, criterion_group, criterion_main};
