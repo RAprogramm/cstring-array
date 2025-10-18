@@ -146,7 +146,49 @@ call_c_function(ptr, array.len() as i32);
 ### Benchmark Results
 
 <!-- BENCHMARK_RESULTS_START -->
-Benchmarks are automatically run on the latest commit to `main`. Results will appear here after the next benchmark run.
+*Last updated: 2025-10-18 14:35:20 UTC*
+
+#### Operations
+
+| Benchmark | Time | Std Dev |
+|-----------|------|---------|
+| As Ptr | 0 ns | ±0 ns |
+| Get | 0 ns | ±0 ns |
+| Iter | 627 ns | ±2 ns |
+| Try From Vec Str | 5.05 μs | ±13 ns |
+| New From Iter | 7.37 μs | ±100 ns |
+
+#### Construction Comparison
+
+| Benchmark | Time | Std Dev |
+|-----------|------|---------|
+| Construction Comparison/From Vec String | 5.08 μs | ±23 ns |
+| Construction Comparison/From Vec New | 5.13 μs | ±17 ns |
+| Construction Comparison/Try From Vec Str | 5.24 μs | ±38 ns |
+
+#### From Cstrings Zero Copy
+
+| Benchmark | Time | Std Dev |
+|-----------|------|---------|
+| From Cstrings Zero Copy/10 | 183 ns | ±0 ns |
+| From Cstrings Zero Copy/100 | 3.82 μs | ±18 ns |
+| From Cstrings Zero Copy/1000 | 35.79 μs | ±137 ns |
+
+#### Large Strings
+
+| Benchmark | Time | Std Dev |
+|-----------|------|---------|
+| Large Strings/100 | 369 ns | ±3 ns |
+| Large Strings/1000 | 1.51 μs | ±6 ns |
+| Large Strings/10000 | 8.12 μs | ±25 ns |
+
+#### New From Strings
+
+| Benchmark | Time | Std Dev |
+|-----------|------|---------|
+| New From Strings/10 | 329 ns | ±1 ns |
+| New From Strings/100 | 4.92 μs | ±227 ns |
+| New From Strings/1000 | 47.91 μs | ±289 ns |
 <!-- BENCHMARK_RESULTS_END -->
 
 <details>
