@@ -28,11 +28,30 @@ jobs:
         run: |
           TAG=${GITHUB_REF#refs/tags/v}
           CARGO_VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+
+          echo "Tag version: $TAG"
+          echo "Cargo.toml version: $CARGO_VERSION"
+
           if [ "$TAG" != "$CARGO_VERSION" ]; then
-            echo "Error: Tag version ($TAG) does not match Cargo.toml version ($CARGO_VERSION)"
+            echo "::error::Tag version ($TAG) does not match Cargo.toml version ($CARGO_VERSION)"
             exit 1
           fi
-          echo "Version verified: $CARGO_VERSION"
+
+          echo "::notice::Version verified: $CARGO_VERSION"
+
+      - name: Check if version already published
+        run: |
+          CARGO_VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+          CRATE_NAME=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
+
+          if cargo search "$CRATE_NAME" --limit 1 | grep -q "^$CRATE_NAME = \"$CARGO_VERSION\""; then
+            echo "::warning::Version $CARGO_VERSION is already published on crates.io"
+            echo "::warning::Skipping publish step"
+            echo "SKIP_PUBLISH=true" >> $GITHUB_ENV
+          else
+            echo "::notice::Version $CARGO_VERSION is not yet published"
+            echo "SKIP_PUBLISH=false" >> $GITHUB_ENV
+          fi
 
       - name: Run tests
         run: cargo test --all-features --verbose
@@ -41,6 +60,7 @@ jobs:
         run: cargo build --release --all-features
 
       - name: Publish to crates.io
+        if: env.SKIP_PUBLISH != 'true'
         run: cargo publish
 
       - name: Create GitHub Release
