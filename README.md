@@ -1,7 +1,7 @@
 # cstring-array
 
 [![CI](https://github.com/RAprogramm/cstring-array/workflows/CI/badge.svg)](https://github.com/RAprogramm/cstring-array/actions)
-[![Coverage](https://codecov.io/gh/RAprogramm/cstring-array/branch/main/graph/badge.svg)](https://codecov.io/gh/RAprogramm/cstring-array)
+[![codecov](https://codecov.io/gh/RAprogramm/cstring-array/graph/badge.svg?token=7qIC3Impoa)](https://codecov.io/gh/RAprogramm/cstring-array)
 [![Crates.io](https://img.shields.io/crates/v/cstring-array.svg)](https://crates.io/crates/cstring-array)
 [![Documentation](https://docs.rs/cstring-array/badge.svg)](https://docs.rs/cstring-array)
 [![Hits-of-Code](https://hitsofcode.com/github/RAprogramm/cstring-array?branch=main)](https://hitsofcode.com/view/github/RAprogramm/cstring-array?branch=main)
@@ -148,6 +148,26 @@ call_c_function(ptr, array.len() as i32);
 <!-- BENCHMARK_RESULTS_START -->
 Benchmarks are automatically run on the latest commit to `main`. Results will appear here after the next benchmark run.
 <!-- BENCHMARK_RESULTS_END -->
+
+<details>
+<summary><b>📊 Coverage Visualization</b></summary>
+
+### Sunburst Chart
+The inner-most circle is the entire project, moving away from the center are folders then, finally, a single file. The size and color of each slice represents the number of statements and the coverage, respectively.
+
+[![Sunburst](https://codecov.io/gh/RAprogramm/cstring-array/graphs/sunburst.svg?token=7qIC3Impoa)](https://codecov.io/gh/RAprogramm/cstring-array)
+
+### Grid Chart
+Each block represents a single file in the project. The size and color of each block is represented by the number of statements and the coverage, respectively.
+
+[![Grid](https://codecov.io/gh/RAprogramm/cstring-array/graphs/tree.svg?token=7qIC3Impoa)](https://codecov.io/gh/RAprogramm/cstring-array)
+
+### Icicle Chart
+The top section represents the entire project, proceeding with folders and finally individual files. The size and color of each slice represents the number of statements and the coverage, respectively.
+
+[![Icicle](https://codecov.io/gh/RAprogramm/cstring-array/graphs/icicle.svg?token=7qIC3Impoa)](https://codecov.io/gh/RAprogramm/cstring-array)
+
+</details>
 
 ## Minimum Supported Rust Version (MSRV)
 

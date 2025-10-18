@@ -1,0 +1,24 @@
+# SPDX-FileCopyrightText: 2025 RAprogramm <andrey.rozanov.vl@gmail.com>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[profile.default]
+retries = 0
+test-threads = "num-cpus"
+status-level = "pass"
+final-status-level = "fail"
+
+[profile.ci]
+retries = 2
+test-threads = "num-cpus"
+slow-timeout = { period = "60s", terminate-after = 2 }
+leak-timeout = "100ms"
+
+[profile.ci.junit]
+path = "junit.xml"
+report-name = "cstring-array-tests"
+store-success-output = true
+store-failure-output = true
+
+[profile.ci.junit.report]
+testsuite = "by-file"
