@@ -12,9 +12,9 @@
 //! - Comparison of construction methods
 //! - Performance with large strings
 
-use std::{convert::TryFrom, ffi::CString};
+use std::{convert::TryFrom, ffi::CString, hint::black_box};
 
-use criterion::{BenchmarkId, Criterion, black_box, criterion_group, criterion_main};
+use criterion::{BenchmarkId, Criterion, criterion_group, criterion_main};
 use cstring_array::CStringArray;
 
 fn bench_new_from_strings(c: &mut Criterion) {
