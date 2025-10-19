@@ -149,6 +149,9 @@ call_c_function(ptr, array.len() as i32);
 
 ### Benchmark Results
 
+<details>
+<summary><b>Performance Metrics</b></summary>
+
 <!-- BENCHMARK_RESULTS_START -->
 *Last updated: 2025-10-19 01:59:32 UTC*
 
@@ -195,8 +198,10 @@ call_c_function(ptr, array.len() as i32);
 | New From Strings/1000 | 48.38 μs | ±215 ns |
 <!-- BENCHMARK_RESULTS_END -->
 
+</details>
+
 <details>
-<summary><b>📊 Coverage Visualization</b></summary>
+<summary><b>Coverage Visualization</b></summary>
 
 ### Sunburst Chart
 The inner-most circle is the entire project, moving away from the center are folders then, finally, a single file. The size and color of each slice represents the number of statements and the coverage, respectively.
