@@ -1,13 +1,17 @@
 # cstring-array
 
+[![Crates.io](https://img.shields.io/crates/v/cstring-array.svg)](https://crates.io/crates/cstring-array)
+[![Downloads](https://img.shields.io/crates/d/cstring-array.svg)](https://crates.io/crates/cstring-array)
+[![Documentation](https://docs.rs/cstring-array/badge.svg)](https://docs.rs/cstring-array)
+[![Lib.rs](https://img.shields.io/badge/lib.rs-cstring--array-blue)](https://lib.rs/crates/cstring-array)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 [![CI](https://github.com/RAprogramm/cstring-array/workflows/CI/badge.svg)](https://github.com/RAprogramm/cstring-array/actions)
 [![codecov](https://codecov.io/gh/RAprogramm/cstring-array/graph/badge.svg?token=7qIC3Impoa)](https://codecov.io/gh/RAprogramm/cstring-array)
-[![Crates.io](https://img.shields.io/crates/v/cstring-array.svg)](https://crates.io/crates/cstring-array)
-[![Documentation](https://docs.rs/cstring-array/badge.svg)](https://docs.rs/cstring-array)
-[![Hits-of-Code](https://hitsofcode.com/github/RAprogramm/cstring-array?branch=main)](https://hitsofcode.com/view/github/RAprogramm/cstring-array?branch=main)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![REUSE status](https://api.reuse.software/badge/github.com/RAprogramm/cstring-array)](https://api.reuse.software/info/github.com/RAprogramm/cstring-array)
+
 [![Rust Version](https://img.shields.io/badge/rust-1.90%2B-blue.svg)](https://www.rust-lang.org)
+[![Hits-of-Code](https://hitsofcode.com/github/RAprogramm/cstring-array?branch=main)](https://hitsofcode.com/view/github/RAprogramm/cstring-array?branch=main)
 
 **Safe, zero-copy wrapper for passing string arrays to C FFI (`char**`)**
 
