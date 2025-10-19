@@ -9,7 +9,7 @@
 //! - Simulating a C function that takes char** argv
 //! - Real-world usage pattern
 
-use std::ffi::{c_char, c_int, CStr};
+use std::ffi::{CStr, c_char, c_int};
 
 use cstring_array::CStringArray;
 
@@ -57,7 +57,7 @@ fn main() {
             s if s.starts_with("--") => println!("  Option: {}", s),
             s if s.starts_with('-') => println!("  Flag: {}", s),
             s if i == 0 => println!("  Program: {}", s),
-            s => println!("  Argument: {}", s),
+            s => println!("  Argument: {}", s)
         }
     }
 }

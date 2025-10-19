@@ -54,7 +54,10 @@ fn main() {
     println!("  Created {} CStrings", large_cstrings.len());
     let large_array = CStringArray::from_cstrings(large_cstrings).expect("Failed to create array");
     println!("  Zero-copy array length: {}", large_array.len());
-    println!("  First element: {}", large_array.get(0).unwrap().to_str().unwrap());
+    println!(
+        "  First element: {}",
+        large_array.get(0).unwrap().to_str().unwrap()
+    );
     println!(
         "  Last element: {}",
         large_array
