@@ -75,7 +75,63 @@ let arr3 = CStringArray::try_from(vec!["foo", "bar"]).unwrap();
 
 // Using TryFrom with arrays
 let arr4 = CStringArray::try_from(["foo", "bar"]).unwrap();
+
+// Using FromIterator (collect)
+let arr5: CStringArray = vec!["a", "b", "c"].into_iter().map(String::from).collect();
 ```
+
+### Ergonomic API with Standard Traits
+
+`CStringArray` implements standard Rust traits for idiomatic usage:
+
+```rust
+use cstring_array::CStringArray;
+use std::collections::HashMap;
+
+let arr1 = CStringArray::new(vec!["a".to_string(), "b".to_string()]).unwrap();
+
+// Clone - independent copies
+let arr2 = arr1.clone();
+assert_eq!(arr1, arr2);
+
+// Equality comparison
+assert_eq!(arr1, arr2);
+
+// Hash - use in HashMap/HashSet
+let mut map = HashMap::new();
+map.insert(arr1.clone(), "value");
+
+// Array indexing
+assert_eq!(arr1[0].to_str().unwrap(), "a");
+assert_eq!(arr1[1].to_str().unwrap(), "b");
+
+// For loop iteration (borrowed)
+for s in &arr1 {
+    println!("{}", s.to_str().unwrap());
+}
+
+// For loop iteration (owned - consumes array)
+for s in arr2 {
+    println!("{}", s.to_str().unwrap());
+}
+
+// Functional programming with iterators
+let filtered: CStringArray = vec!["a", "bb", "ccc"]
+    .into_iter()
+    .filter(|s| s.len() > 1)
+    .map(String::from)
+    .collect();
+```
+
+**Implemented traits:**
+- `Clone` - Deep copy with independent memory
+- `PartialEq`, `Eq` - Equality comparison
+- `Hash` - Use in `HashMap` and `HashSet`
+- `FromIterator<String>` - Collect from `String` iterators
+- `FromIterator<CString>` - Collect from `CString` iterators
+- `IntoIterator` - Owned and borrowed iteration
+- `Index<usize>` - Array-style indexing `arr[0]`
+- `AsRef<[CString]>` - Generic slice conversion
 
 ### Real-World Example: Calling C Function
 
