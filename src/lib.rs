@@ -60,10 +60,7 @@
 //! let arr4 = CStringArray::try_from(["foo", "bar"]).unwrap();
 //!
 //! // Using FromIterator (collect)
-//! let arr5: CStringArray = vec!["a", "b", "c"]
-//!     .into_iter()
-//!     .map(String::from)
-//!     .collect();
+//! let arr5: CStringArray = vec!["a", "b", "c"].into_iter().map(String::from).collect();
 //! ```
 //!
 //! # Trait Implementations
