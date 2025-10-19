@@ -280,18 +280,6 @@ The top section represents the entire project, proceeding with folders and final
 
 This crate requires Rust 1.90 or later.
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-Developed by [RAprogramm](https://github.com/RAprogramm)
-
 ## Related Projects
 
 - [`std::ffi::CString`](https://doc.rust-lang.org/std/ffi/struct.CString.html) - Standard library C string type
