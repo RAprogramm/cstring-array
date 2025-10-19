@@ -156,5 +156,6 @@ jobs:
           else
             git add README.md
             git commit -m "chore: update tokei metrics [skip ci]"
+            git pull --rebase origin main
             git push
           fi
