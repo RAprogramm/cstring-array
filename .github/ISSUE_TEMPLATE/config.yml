@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2025 RAprogramm <andrey.rozanov.vl@gmail.com>
+# SPDX-License-Identifier: CC0-1.0
+
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://docs.rs/cstring-array
+    about: Read the documentation for usage examples and API reference
+  - name: Security Vulnerability
+    url: https://github.com/RAprogramm/cstring-array/security/advisories/new
+    about: Report a security vulnerability privately
