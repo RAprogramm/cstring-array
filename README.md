@@ -280,6 +280,44 @@ The top section represents the entire project, proceeding with folders and final
 
 This crate requires Rust 1.90 or later.
 
+<details>
+<summary><b>Repository Metrics</b></summary>
+
+<!-- TOKEI_METRICS_START -->
+*Last updated: 2025-10-19 03:30:00 UTC*
+
+### Code Statistics
+
+| Language | Files | Lines | Code | Comments | Blanks |
+|----------|-------|-------|------|----------|--------|
+| Rust | 17 | 1831 | 1393 | 91 | 347 |
+| TOML | 5 | 243 | 191 | 6 | 26 |
+| Markdown | 4 | 513 | 0 | 348 | 165 |
+| YAML | 1 | 40 | 28 | 5 | 7 |
+| Plain Text | 2 | 139 | 0 | 123 | 16 |
+| **Total** | **29** | **2746** | **1612** | **573** | **561** |
+<!-- TOKEI_METRICS_END -->
+
+### Test Coverage Breakdown
+
+- **Unit Tests**: 34 tests (src/tests.rs)
+- **Integration Tests**: 11 tests (tests/integration.rs)
+- **Property Tests**: 12 tests (tests/property_tests.rs)
+- **Trait Tests**: 17 tests (tests/traits.rs)
+- **Documentation Tests**: 20 tests (inline examples)
+- **Fuzz Targets**: 4 targets (libFuzzer-based)
+- **Total**: 94 traditional tests + fuzzing
+
+### Security & Quality
+
+- **REUSE 3.3 Compliance**: 41/41 files (100%)
+- **Code Coverage**: 98.5%+ (Codecov)
+- **Unsafe Code Validation**: Miri testing enabled
+- **Supply Chain Security**: cargo-deny + cargo-audit
+- **Static Analysis**: CodeQL scanning
+
+</details>
+
 ## Related Projects
 
 - [`std::ffi::CString`](https://doc.rust-lang.org/std/ffi/struct.CString.html) - Standard library C string type

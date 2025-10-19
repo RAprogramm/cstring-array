@@ -53,6 +53,9 @@ jobs:
       - name: Run Miri tests
         run: |
           cargo miri setup
-          cargo miri test --all-features
+          cargo miri test --lib --all-features
+          cargo miri test --test integration --all-features
+          cargo miri test --test traits --all-features
+          cargo miri test --doc --all-features
         env:
           MIRIFLAGS: -Zmiri-symbolic-alignment-check -Zmiri-disable-isolation

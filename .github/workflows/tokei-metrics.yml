@@ -1,0 +1,160 @@
+# SPDX-FileCopyrightText: 2025 RAprogramm <andrey.rozanov.vl@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
+name: Tokei Metrics
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'benches/**'
+      - 'examples/**'
+      - 'fuzz/**'
+      - '**.toml'
+      - '**.md'
+      - '.github/workflows/tokei-metrics.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install tokei
+        run: |
+          cargo install tokei --version 12.1.2
+
+      - name: Generate tokei metrics
+        run: |
+          tokei --output json > tokei_output.json
+          cat tokei_output.json
+
+      - name: Format tokei results
+        run: |
+          cat > format_tokei.py << 'PYTHON_SCRIPT'
+          #!/usr/bin/env python3
+          import json
+          from datetime import datetime
+
+          def format_tokei_output(filename):
+              """Parse tokei JSON output and generate markdown table."""
+              with open(filename, 'r') as f:
+                  data = json.load(f)
+
+              # Extract language statistics
+              languages = {}
+              for lang_name, lang_data in data.items():
+                  if lang_name == 'Total':
+                      continue
+
+                  code = lang_data.get('code', 0)
+                  comments = lang_data.get('comments', 0)
+                  blanks = lang_data.get('blanks', 0)
+
+                  # Count files
+                  files = len(lang_data.get('reports', []))
+
+                  lines = code + comments + blanks
+
+                  languages[lang_name] = {
+                      'files': files,
+                      'lines': lines,
+                      'code': code,
+                      'comments': comments,
+                      'blanks': blanks
+                  }
+
+              # Get total
+              total_data = data.get('Total', {})
+              total = {
+                  'files': sum(lang['files'] for lang in languages.values()),
+                  'lines': total_data.get('code', 0) + total_data.get('comments', 0) + total_data.get('blanks', 0),
+                  'code': total_data.get('code', 0),
+                  'comments': total_data.get('comments', 0),
+                  'blanks': total_data.get('blanks', 0)
+              }
+
+              return languages, total
+
+          def generate_markdown(languages, total):
+              """Generate markdown table from tokei results."""
+              lines = []
+              lines.append(f"*Last updated: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC*")
+              lines.append("")
+              lines.append("### Code Statistics")
+              lines.append("")
+              lines.append("| Language | Files | Lines | Code | Comments | Blanks |")
+              lines.append("|----------|-------|-------|------|----------|--------|")
+
+              # Sort languages by lines of code (descending)
+              for lang_name in sorted(languages.keys(), key=lambda x: languages[x]['code'], reverse=True):
+                  lang = languages[lang_name]
+                  lines.append(f"| {lang_name} | {lang['files']} | {lang['lines']} | {lang['code']} | {lang['comments']} | {lang['blanks']} |")
+
+              # Add total row
+              lines.append(f"| **Total** | **{total['files']}** | **{total['lines']}** | **{total['code']}** | **{total['comments']}** | **{total['blanks']}** |")
+
+              return '\n'.join(lines)
+
+          if __name__ == '__main__':
+              try:
+                  languages, total = format_tokei_output('tokei_output.json')
+                  markdown = generate_markdown(languages, total)
+
+                  with open('tokei_results.md', 'w') as f:
+                      f.write(markdown)
+
+                  print("Tokei metrics formatted successfully")
+              except Exception as e:
+                  print(f"Error processing tokei metrics: {e}")
+                  import traceback
+                  traceback.print_exc()
+                  with open('tokei_results.md', 'w') as f:
+                      f.write("Metrics will appear after the next run on main branch.")
+          PYTHON_SCRIPT
+
+          python3 format_tokei.py
+
+      - name: Update README with tokei metrics
+        run: |
+          if [ -f tokei_results.md ]; then
+            TOKEI_RESULTS=$(cat tokei_results.md)
+
+            awk -v results="$TOKEI_RESULTS" '
+              BEGIN { in_section=0 }
+              /<!-- TOKEI_METRICS_START -->/ {
+                print
+                print results
+                in_section=1
+                next
+              }
+              /<!-- TOKEI_METRICS_END -->/ {
+                in_section=0
+              }
+              !in_section { print }
+            ' README.md > README.md.tmp
+
+            mv README.md.tmp README.md
+          fi
+
+      - name: Commit tokei metrics
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          if git diff --quiet README.md; then
+            echo "No changes to commit"
+          else
+            git add README.md
+            git commit -m "chore: update tokei metrics [skip ci]"
+            git push
+          fi
