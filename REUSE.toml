@@ -4,13 +4,19 @@ SPDX-PackageSupplier = "RAprogramm <andrey.rozanov.vl@gmail.com>"
 SPDX-PackageDownloadLocation = "https://github.com/RAprogramm/cstring-array"
 
 [[annotations]]
-path = ["Cargo.toml", "Cargo.lock", ".gitignore", ".rustfmt.toml", "REUSE.toml", "codecov.yml", ".config/nextest.toml", "cliff.toml", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", "deny.toml"]
+path = ["Cargo.toml", "Cargo.lock", ".gitignore", ".rustfmt.toml", "REUSE.toml", "codecov.yml", ".config/nextest.toml", "cliff.toml", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md", ".github/ISSUE_TEMPLATE/*.yml", ".github/PULL_REQUEST_TEMPLATE.md"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 RAprogramm <andrey.rozanov.vl@gmail.com>"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = "README.md"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 RAprogramm <andrey.rozanov.vl@gmail.com>"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = "examples/*.rs"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2025 RAprogramm <andrey.rozanov.vl@gmail.com>"
 SPDX-License-Identifier = "MIT"
