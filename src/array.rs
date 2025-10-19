@@ -267,6 +267,40 @@ impl CStringArray {
     pub fn iter(&self) -> Iter<'_, CString> {
         self.strings.iter()
     }
+
+    /// Returns a slice of the underlying `CString` array.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use cstring_array::CStringArray;
+    ///
+    /// let array = CStringArray::new(vec!["a".to_string()]).unwrap();
+    /// let slice = array.as_slice();
+    /// assert_eq!(slice.len(), 1);
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn as_slice(&self) -> &[CString] {
+        &self.strings
+    }
+
+    /// Consumes the array and returns the underlying vector of `CString`s.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use cstring_array::CStringArray;
+    ///
+    /// let array = CStringArray::new(vec!["test".to_string()]).unwrap();
+    /// let strings = array.into_strings();
+    /// assert_eq!(strings.len(), 1);
+    /// ```
+    #[inline]
+    #[must_use]
+    pub fn into_strings(mut self) -> Vec<CString> {
+        std::mem::take(&mut self.strings)
+    }
 }
 
 impl Drop for CStringArray {
