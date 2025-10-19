@@ -63,7 +63,7 @@ fn null_termination() {
         let ptr = arr.as_ptr();
 
         unsafe {
-            let null_ptr = *ptr.offset(arr.len() as isize);
+            let null_ptr = *ptr.add(arr.len());
             prop_assert!(null_ptr.is_null());
         }
     });
