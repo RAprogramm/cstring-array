@@ -58,6 +58,55 @@
 //!
 //! // Using TryFrom with arrays
 //! let arr4 = CStringArray::try_from(["foo", "bar"]).unwrap();
+//!
+//! // Using FromIterator (collect)
+//! let arr5: CStringArray = vec!["a", "b", "c"]
+//!     .into_iter()
+//!     .map(String::from)
+//!     .collect();
+//! ```
+//!
+//! # Trait Implementations
+//!
+//! `CStringArray` implements many standard Rust traits for ergonomic usage:
+//!
+//! ```
+//! use std::collections::HashMap;
+//!
+//! use cstring_array::CStringArray;
+//!
+//! let arr1 = CStringArray::new(vec!["a".to_string(), "b".to_string()]).unwrap();
+//!
+//! // Clone
+//! let arr2 = arr1.clone();
+//! assert_eq!(arr1, arr2);
+//!
+//! // Equality
+//! assert_eq!(arr1, arr2);
+//!
+//! // Hash (use in HashMap)
+//! let mut map = HashMap::new();
+//! map.insert(arr1.clone(), "value");
+//!
+//! // Indexing
+//! assert_eq!(arr1[0].to_str().unwrap(), "a");
+//! assert_eq!(arr1[1].to_str().unwrap(), "b");
+//!
+//! // Iteration (borrowed)
+//! for s in &arr1 {
+//!     println!("{}", s.to_str().unwrap());
+//! }
+//!
+//! // Iteration (owned)
+//! for s in arr2 {
+//!     println!("{}", s.to_str().unwrap());
+//! }
+//!
+//! // AsRef conversion
+//! fn process_strings(strings: &[std::ffi::CString]) {
+//!     println!("Processing {} strings", strings.len());
+//! }
+//! process_strings(arr1.as_ref());
 //! ```
 //!
 //! # Safety Considerations
