@@ -34,6 +34,8 @@ jobs:
 
       - name: Install Rust nightly
         uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: llvm-tools-preview
 
       - name: Setup Rust cache
         uses: Swatinem/rust-cache@v2
