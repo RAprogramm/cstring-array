@@ -1,6 +1,6 @@
 [package]
 name = "cstring-array"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 rust-version = "1.90"
 authors = ["RAprogramm <andrey.rozanov.vl@gmail.com>"]
@@ -13,13 +13,13 @@ keywords = ["ffi", "c-interop", "cstring", "argv", "char-array"]
 categories = ["api-bindings", "development-tools::ffi", "external-ffi-bindings"]
 readme = "README.md"
 exclude = [
-    ".github/",
-    "target/",
-    "*.md",
-    "!README.md",
-    ".gitignore",
-    "codecov.yml",
-    "REUSE.toml"
+  ".github/",
+  "target/",
+  "*.md",
+  "!README.md",
+  ".gitignore",
+  "codecov.yml",
+  "REUSE.toml",
 ]
 
 [dependencies]
