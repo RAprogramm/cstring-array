@@ -24,3 +24,6 @@ cobertura.xml
 
 # Documentation
 /target/doc
+
+# Property testing
+proptest-regressions/
