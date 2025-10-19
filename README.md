@@ -284,18 +284,19 @@ This crate requires Rust 1.90 or later.
 <summary><b>Repository Metrics</b></summary>
 
 <!-- TOKEI_METRICS_START -->
-*Last updated: 2025-10-19 03:30:00 UTC*
+*Last updated: 2025-10-19 03:27:56 UTC*
 
 ### Code Statistics
 
 | Language | Files | Lines | Code | Comments | Blanks |
 |----------|-------|-------|------|----------|--------|
 | Rust | 17 | 1831 | 1393 | 91 | 347 |
-| TOML | 5 | 243 | 191 | 6 | 26 |
-| Markdown | 4 | 513 | 0 | 348 | 165 |
+| TOML | 5 | 223 | 191 | 6 | 26 |
 | YAML | 1 | 40 | 28 | 5 | 7 |
+| JSON | 1 | 0 | 0 | 0 | 0 |
+| Markdown | 4 | 551 | 0 | 377 | 174 |
 | Plain Text | 2 | 139 | 0 | 123 | 16 |
-| **Total** | **29** | **2746** | **1612** | **573** | **561** |
+| **Total** | **30** | **2784** | **1612** | **602** | **570** |
 <!-- TOKEI_METRICS_END -->
 
 ### Test Coverage Breakdown
