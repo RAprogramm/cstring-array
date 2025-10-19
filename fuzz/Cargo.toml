@@ -1,0 +1,49 @@
+[package]
+name = "cstring-array-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+
+[dependencies.cstring-array]
+path = ".."
+
+[[bin]]
+name = "fuzz_target_1"
+path = "fuzz_targets/fuzz_target_1.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_new_from_strings"
+path = "fuzz_targets/fuzz_new_from_strings.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_from_cstrings"
+path = "fuzz_targets/fuzz_from_cstrings.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_pointer_operations"
+path = "fuzz_targets/fuzz_pointer_operations.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fuzz_try_from"
+path = "fuzz_targets/fuzz_try_from.rs"
+test = false
+doc = false
+bench = false
