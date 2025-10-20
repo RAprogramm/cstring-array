@@ -47,8 +47,11 @@ jobs:
         with:
           tool: cargo-fuzz
 
+      - name: Add gnu target
+        run: rustup target add x86_64-unknown-linux-gnu
+
       - name: Run fuzzer
-        run: cargo fuzz run ${{ matrix.target }} -- -max_total_time=300
+        run: cargo fuzz run ${{ matrix.target }} --target x86_64-unknown-linux-gnu -- -max_total_time=300
         env:
           RUST_BACKTRACE: 1
 
