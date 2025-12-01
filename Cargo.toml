@@ -25,7 +25,7 @@ exclude = [
 [dependencies]
 
 [dev-dependencies]
-criterion = { version = "0.7", features = ["html_reports"] }
+criterion = { version = "0.8", features = ["html_reports"] }
 proptest = "1.8"
 
 [package.metadata.docs.rs]
