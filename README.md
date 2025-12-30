@@ -209,7 +209,7 @@ call_c_function(ptr, array.len() as i32);
 <summary><b>Performance Metrics</b></summary>
 
 <!-- BENCHMARK_RESULTS_START -->
-*Last updated: 2025-10-19 07:27:25 UTC*
+*Last updated: 2025-12-30 01:45:09 UTC*
 
 #### Operations
 
@@ -217,41 +217,41 @@ call_c_function(ptr, array.len() as i32);
 |-----------|------|---------|
 | As Ptr | 0 ns | ±0 ns |
 | Get | 0 ns | ±0 ns |
-| Iter | 326 ns | ±1 ns |
-| Try From Vec Str | 5.34 μs | ±63 ns |
-| New From Iter | 6.79 μs | ±124 ns |
+| Iter | 317 ns | ±1 ns |
+| Try From Vec Str | 4.82 μs | ±21 ns |
+| New From Iter | 7.05 μs | ±91 ns |
 
 #### Construction Comparison
 
 | Benchmark | Time | Std Dev |
 |-----------|------|---------|
-| Construction Comparison/From Vec String | 5.29 μs | ±11 ns |
-| Construction Comparison/Try From Vec Str | 5.36 μs | ±26 ns |
-| Construction Comparison/From Vec New | 5.39 μs | ±25 ns |
+| Construction Comparison/From Vec String | 5.10 μs | ±26 ns |
+| Construction Comparison/From Vec New | 5.15 μs | ±25 ns |
+| Construction Comparison/Try From Vec Str | 5.17 μs | ±242 ns |
 
 #### From Cstrings Zero Copy
 
 | Benchmark | Time | Std Dev |
 |-----------|------|---------|
-| From Cstrings Zero Copy/10 | 179 ns | ±1 ns |
-| From Cstrings Zero Copy/100 | 3.81 μs | ±28 ns |
-| From Cstrings Zero Copy/1000 | 39.07 μs | ±4.48 μs |
+| From Cstrings Zero Copy/10 | 204 ns | ±0 ns |
+| From Cstrings Zero Copy/100 | 3.64 μs | ±6 ns |
+| From Cstrings Zero Copy/1000 | 35.35 μs | ±1.06 μs |
 
 #### Large Strings
 
 | Benchmark | Time | Std Dev |
 |-----------|------|---------|
-| Large Strings/100 | 398 ns | ±3 ns |
-| Large Strings/1000 | 1.54 μs | ±12 ns |
-| Large Strings/10000 | 8.67 μs | ±26 ns |
+| Large Strings/100 | 366 ns | ±2 ns |
+| Large Strings/1000 | 1.51 μs | ±10 ns |
+| Large Strings/10000 | 7.99 μs | ±24 ns |
 
 #### New From Strings
 
 | Benchmark | Time | Std Dev |
 |-----------|------|---------|
-| New From Strings/10 | 297 ns | ±2 ns |
-| New From Strings/100 | 5.05 μs | ±19 ns |
-| New From Strings/1000 | 51.78 μs | ±214 ns |
+| New From Strings/10 | 316 ns | ±2 ns |
+| New From Strings/100 | 4.84 μs | ±31 ns |
+| New From Strings/1000 | 47.09 μs | ±680 ns |
 <!-- BENCHMARK_RESULTS_END -->
 
 </details>
