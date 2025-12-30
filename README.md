@@ -284,7 +284,7 @@ This crate requires Rust 1.90 or later.
 <summary><b>Repository Metrics</b></summary>
 
 <!-- TOKEI_METRICS_START -->
-*Last updated: 2025-10-19 07:24:30 UTC*
+*Last updated: 2025-12-30 01:41:51 UTC*
 
 ### Code Statistics
 
